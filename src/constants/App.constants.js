@@ -4,6 +4,7 @@ export const AppConstants = {
     Player1Name:"Player 1",
     Player2Name:"Player 2",
     InitialScore:"Love all",
+    DeuceText:"Deuce",
     AllText:" all",
     Comma:",",
     ScoreText:"Score"

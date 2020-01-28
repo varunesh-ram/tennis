@@ -7,6 +7,7 @@ export default class Scorer extends React.Component {
         super(props);
         this.state = {scoreText:AppConstants.InitialScore};
         this.calculateScore = this.calculateScore.bind(this);
+        this.isDeuce = this.isDeuce.bind(this);
     }
     componentDidUpdate(prevProps){
         if(prevProps.player1Score !== this.props.player1Score || prevProps.player2Score !== this.props.player2Score)
@@ -17,13 +18,20 @@ export default class Scorer extends React.Component {
         let player2Score = this.props.player2Score;
         let scoreText;
         const Scores = ['Love', 'Fifteen', 'Thirty', 'Forty'];
-		if(player1Score === player2Score) {
+		if (this.isDeuce())
+            		scoreText = AppConstants.DeuceText;
+		if(!scoreText && player1Score === player2Score) {
 			scoreText = Scores[player1Score] + AppConstants.AllText;
 		}
 		if (!scoreText)
         scoreText = Scores[player1Score] + AppConstants.Comma + Scores[player2Score];
-        if (player1Score <4 && player2Score <4)
+        if (!(player1Score > 3 && this.props.player2Score !== this.props.player1Score))
         this.setState({scoreText:scoreText})
+        else
+        this.setState({scoreText:"InProgress"})
+    }
+    isDeuce(){
+        return this.props.player1Score >= 3 && this.props.player2Score === this.props.player1Score;
     }
     render() {
         return  (
