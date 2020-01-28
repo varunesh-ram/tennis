@@ -8,6 +8,8 @@ export default class Scorer extends React.Component {
         this.state = {scoreText:AppConstants.InitialScore};
         this.calculateScore = this.calculateScore.bind(this);
         this.isDeuce = this.isDeuce.bind(this);
+	    this.playerWithHighestScore = this.playerWithHighestScore.bind(this);
+        this.hasAdvantage = this.hasAdvantage.bind(this);
     }
     componentDidUpdate(prevProps){
         if(prevProps.player1Score !== this.props.player1Score || prevProps.player2Score !== this.props.player2Score)
@@ -18,17 +20,34 @@ export default class Scorer extends React.Component {
         let player2Score = this.props.player2Score;
         let scoreText;
         const Scores = ['Love', 'Fifteen', 'Thirty', 'Forty'];
-		if (this.isDeuce())
-            		scoreText = AppConstants.DeuceText;
+		if (this.hasAdvantage()) { 
+			scoreText =  AppConstants.AdvantageText +this.playerWithHighestScore(); 
+		}		
+		if (!scoreText && this.isDeuce())
+            scoreText = AppConstants.DeuceText;
 		if(!scoreText && player1Score === player2Score) {
 			scoreText = Scores[player1Score] + AppConstants.AllText;
 		}
-		if (!scoreText)
+		if (!scoreText && player1Score < 4 && player2Score < 4 )
         scoreText = Scores[player1Score] + AppConstants.Comma + Scores[player2Score];
-        if (!(player1Score > 3 && this.props.player2Score !== this.props.player1Score))
         this.setState({scoreText:scoreText})
-        else
-        this.setState({scoreText:"InProgress"})
+    }
+    hasAdvantage(){
+        let player1Score = this.props.player1Score;
+        let player2Score = this.props.player2Score;
+        if (player2Score >= 4 && player2Score === player1Score + 1)
+			return true;
+		if (player1Score >= 4 && player1Score === player2Score + 1)
+			return true;
+		
+		return false;
+    }
+    playerWithHighestScore(){
+        if (this.props.player1Score > this.props.player2Score) {
+			return AppConstants.Player1Name;
+		} else {
+			return AppConstants.Player2Name;
+		}
     }
     isDeuce(){
         return this.props.player1Score >= 3 && this.props.player2Score === this.props.player1Score;

@@ -78,4 +78,12 @@ describe(("<Scorer/> component with props"), () => {
             wrapper.setProps({ player1Score: 4 ,player2Score : 4});
             expect(wrapper.find("label").text()).toEqual("Deuce");
           });
+          it("on player 1 scores four time and player 2 scores five time, the score should be Advantage Player 2", () => {
+            wrapper.setProps({ player1Score: 4 ,player2Score : 5});
+            expect(wrapper.find("label").text()).toEqual("Advantage Player 2");
+          });
+          it("on player 1 scores five time and player 2 scores four time, the score should be Advantage Player 1", () => {
+            wrapper.setProps({ player1Score: 5 ,player2Score : 4});
+            expect(wrapper.find("label").text()).toEqual("Advantage Player 1");
+          });
         });
