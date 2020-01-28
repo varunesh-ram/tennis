@@ -86,4 +86,20 @@ describe(("<Scorer/> component with props"), () => {
             wrapper.setProps({ player1Score: 5 ,player2Score : 4});
             expect(wrapper.find("label").text()).toEqual("Advantage Player 1");
           });
+	  it("on player 1 scores four times , player 1 should win", () => {
+            wrapper.setProps({ player1Score: 4 ,player2Score : 0});
+            expect(wrapper.find("label").text()).toEqual("Player 1 wins");
+          });
+          it("on player 1 scores once and player 2 scores four time , player 2 should win", () => {
+            wrapper.setProps({ player1Score: 1 ,player2Score : 4});
+            expect(wrapper.find("label").text()).toEqual("Player 2 wins");
+          });
+          it("on player 1 scores six times and player 2 scores eight time , player 2 should win", () => {
+            wrapper.setProps({ player1Score: 6 ,player2Score : 8});
+            expect(wrapper.find("label").text()).toEqual("Player 2 wins");
+          });
+          it("on player 1 scores eight times and player 2 scores six time , player 1 should win", () => {
+            wrapper.setProps({ player1Score: 8 ,player2Score : 6});
+            expect(wrapper.find("label").text()).toEqual("Player 1 wins");
+          });
         });

@@ -7,8 +7,9 @@ export default class Scorer extends React.Component {
         super(props);
         this.state = {scoreText:AppConstants.InitialScore};
         this.calculateScore = this.calculateScore.bind(this);
+        this.hasWinner = this.hasWinner.bind(this);
         this.isDeuce = this.isDeuce.bind(this);
-	    this.playerWithHighestScore = this.playerWithHighestScore.bind(this);
+	this.playerWithHighestScore = this.playerWithHighestScore.bind(this);
         this.hasAdvantage = this.hasAdvantage.bind(this);
     }
     componentDidUpdate(prevProps){
@@ -20,7 +21,10 @@ export default class Scorer extends React.Component {
         let player2Score = this.props.player2Score;
         let scoreText;
         const Scores = ['Love', 'Fifteen', 'Thirty', 'Forty'];
-		if (this.hasAdvantage()) { 
+        if (this.hasWinner()) {
+            scoreText = this.playerWithHighestScore() + AppConstants.WinnerText;
+		}		
+		if (!scoreText && this.hasAdvantage()) { 
 			scoreText =  AppConstants.AdvantageText +this.playerWithHighestScore(); 
 		}		
 		if (!scoreText && this.isDeuce())
@@ -32,6 +36,16 @@ export default class Scorer extends React.Component {
         scoreText = Scores[player1Score] + AppConstants.Comma + Scores[player2Score];
         this.setState({scoreText:scoreText})
     }
+    hasWinner(){
+        let player1Score = this.props.player1Score;
+        let player2Score = this.props.player2Score;
+        if(player2Score >= 4 && player2Score >= player1Score + 2 )
+			return true;
+		if(player1Score >= 4 && player1Score >= player2Score + 2)
+			return true;
+		return false;
+    }
+
     hasAdvantage(){
         let player1Score = this.props.player1Score;
         let player2Score = this.props.player2Score;
