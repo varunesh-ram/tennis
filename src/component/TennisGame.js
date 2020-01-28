@@ -35,6 +35,7 @@ export default class TennisGame extends React.Component {
                 <Player name={AppConstants.Player2Name} updateScore={this.player2Scores} isGameOver={this.state.isGameOver}></Player>                
             </div>
             <Scorer player1Score={this.state.player1Score} player2Score={this.state.player2Score} isGameOver={this.notifyGameOver}></Scorer>
+            <br/><form><button type="submit">{AppConstants.ResetButtonText}</button></form>
         </div>);
     }        
  }

@@ -9,5 +9,6 @@ export const AppConstants = {
     DeuceText:"Deuce",
     AllText:" all",
     Comma:",",
+    ResetButtonText:"Reset Game",
     ScoreText:"Score"
 };
