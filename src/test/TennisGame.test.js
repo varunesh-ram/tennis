@@ -31,4 +31,9 @@ describe(("<TennisGame/> component"), () => {
     expect(wrapper.state().player1Score).toBe(2);
     expect(wrapper.state().player2Score).toBe(1);
   });
+  it("should set the state game over on notifyed by game over event", () => {
+    expect(wrapper.state().isGameOver).toBe(false);
+    wrapper.instance().notifyGameOver();
+    expect(wrapper.state().isGameOver).toBe(true);
+  });
 });

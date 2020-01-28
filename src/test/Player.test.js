@@ -12,11 +12,9 @@ describe(("<Player/> component no props"), () => {
   it("should render correctly", () => {
     expect(wrapper).toMatchSnapshot();
   });
-  it("should display default heading", () => {
+  it("should display default heading only", () => {
     expect(wrapper.find("h5").text()).toEqual("Props not passed");
-  });
-    it("should display button for scoring", () => {
-    expect(wrapper.find("button").length).toBe(1);
+    expect(wrapper.find("button").length).toBe(0);
   });
 });
 describe(("<Player/> component with props"), () => {
@@ -25,6 +23,9 @@ describe(("<Player/> component with props"), () => {
           wrapper = shallow( < Player name = "Player 1"
             updateScore = {
               () => {}
+            }
+            isGameOver = {
+              false
             }
             />);
           });
@@ -42,15 +43,26 @@ describe(("<Player/> component with props"), () => {
           const onButtonClick = sinon.spy();
           wrapper = mount( < Player name = "Player 1"
             updateScore = {onButtonClick}
+            isGameOver = {false}
             />);
           wrapper.find("button").simulate('click');
           expect(onButtonClick).toHaveProperty('callCount', 1);
+        }); 
+        it("should have one heading and no button on gameover", () => {
+          const onButtonClick = sinon.spy();
+          wrapper = mount( < Player name = "Player 1"
+            updateScore = {onButtonClick}
+            isGameOver = {true}
+            />);
+          expect(wrapper.find("h5").text()).toEqual("Player 1");
+          expect(wrapper.find("button").length).toBe(0);
         }); 
         describe(("checking prop types"), () => {
           it("should not throw a warning", () => {
             const expectedProps = {
               name: "Player 2",
-              updateScore: () => {}
+              updateScore: () => {},
+              isGameOver: false
             };
             const propsError = CheckPropTypes(Player.propTypes, expectedProps, 'props', Player.name);
             expect(propsError).toBeUndefined();

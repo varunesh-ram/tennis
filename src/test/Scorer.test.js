@@ -25,6 +25,9 @@ describe(("<Scorer/> component with props"), () => {
       beforeEach(() => {
           wrapper = shallow( < Scorer player1Score = {0}
           player2Score = {0}
+          isGameOver = {
+            () => {}
+          }
             />);
           });
 
@@ -39,7 +42,8 @@ describe(("<Scorer/> component with props"), () => {
           it("should not throw a warning", () => {
             const expectedProps = {
                 player1Score: 0,
-                player2Score: 0
+                player2Score: 0,
+              isGameOver: ()=>{}
             };
             const propsError = CheckPropTypes(Scorer.propTypes, expectedProps, 'props', Scorer.name);
             expect(propsError).toBeUndefined();
@@ -47,10 +51,12 @@ describe(("<Scorer/> component with props"), () => {
         });
       });
       describe(("checking <Scorer /> functionality"), () => {
-        let wrapper;
+        let wrapper,onGameEnd;
         beforeEach(() => {
+          onGameEnd = sinon.spy();
           wrapper = mount( < Scorer player1Score = {0}
             player2Score = {0}
+            isGameOver = {onGameEnd}
               />);
         });
 
@@ -86,20 +92,24 @@ describe(("<Scorer/> component with props"), () => {
             wrapper.setProps({ player1Score: 5 ,player2Score : 4});
             expect(wrapper.find("label").text()).toEqual("Advantage Player 1");
           });
-	  it("on player 1 scores four times , player 1 should win", () => {
+	      it("on player 1 scores four times , player 1 should win and trigger props isGameOver", () => {
             wrapper.setProps({ player1Score: 4 ,player2Score : 0});
             expect(wrapper.find("label").text()).toEqual("Player 1 wins");
+            expect(onGameEnd).toHaveProperty('callCount', 1);
           });
-          it("on player 1 scores once and player 2 scores four time , player 2 should win", () => {
+          it("on player 1 scores once and player 2 scores four time , player 2 should win and trigger props isGameOver", () => {
             wrapper.setProps({ player1Score: 1 ,player2Score : 4});
             expect(wrapper.find("label").text()).toEqual("Player 2 wins");
+            expect(onGameEnd).toHaveProperty('callCount', 1);
           });
-          it("on player 1 scores six times and player 2 scores eight time , player 2 should win", () => {
+          it("on player 1 scores six times and player 2 scores eight time , player 2 should win and trigger props isGameOver", () => {
             wrapper.setProps({ player1Score: 6 ,player2Score : 8});
             expect(wrapper.find("label").text()).toEqual("Player 2 wins");
+            expect(onGameEnd).toHaveProperty('callCount', 1);
           });
-          it("on player 1 scores eight times and player 2 scores six time , player 1 should win", () => {
+          it("on player 1 scores eight times and player 2 scores six time , player 1 should win and trigger props isGameOver", () => {
             wrapper.setProps({ player1Score: 8 ,player2Score : 6});
             expect(wrapper.find("label").text()).toEqual("Player 1 wins");
+            expect(onGameEnd).toHaveProperty('callCount', 1);
           });
         });
