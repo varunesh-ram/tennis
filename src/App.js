@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import TennisGame from './component/TennisGame';
 import {AppConstants} from './constants/App.constants';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
       <header className="App-header">
           <h1>{AppConstants.Header}</h1>
       </header>
+      <TennisGame />
     </div>
   );
 }
