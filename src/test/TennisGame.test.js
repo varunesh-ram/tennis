@@ -18,4 +18,17 @@ describe(("<TennisGame/> component"), () => {
     expect(wrapper.find(Scorer)).toBeDefined();
     expect(wrapper.find(Scorer).length).toBe(1);    
   });
+  it("should increase the score of player on appropriate event", () => {
+    expect(wrapper.state().player1Score).toBe(0);
+    expect(wrapper.state().player2Score).toBe(0);
+    wrapper.instance().player1Scores();
+    expect(wrapper.state().player1Score).toBe(1);
+    expect(wrapper.state().player2Score).toBe(0);
+    wrapper.instance().player1Scores();
+    expect(wrapper.state().player1Score).toBe(2);
+    expect(wrapper.state().player2Score).toBe(0);
+    wrapper.instance().player2Scores();
+    expect(wrapper.state().player1Score).toBe(2);
+    expect(wrapper.state().player2Score).toBe(1);
+  });
 });
