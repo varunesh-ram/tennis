@@ -28,7 +28,7 @@ export default class TennisGame extends React.Component {
                 </div>
                 <Player name={AppConstants.Player2Name} updateScore={this.player2Scores}></Player>                
             </div>
-            <Scorer />
+            <Scorer player1Score={this.state.player1Score} player2Score={this.state.player2Score}></Scorer>
         </div>);
     }        
  }
